@@ -12,7 +12,7 @@ function App() {
         <div className="card info-card">
           <h2>👤 Geliştirici Bilgileri</h2>
           <p><strong>Ad Soyad:</strong> Seher Akyel</p>
-          <p><strong>Öğrenci No:</strong> 250703021</p>
+          <p><strong>Öğrenci No:</strong> 235541063</p>
           <p><strong>Bölüm:</strong> Yazılım Mühendisliği</p>
         </div>
 

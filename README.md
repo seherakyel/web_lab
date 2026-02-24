@@ -6,8 +6,8 @@ Vite + React + TypeScript kullanılarak oluşturulmuştur.
 ## Geliştirici
 
 - **Ad Soyad:** Seher Akyel
-- **Öğrenci No:** 
-- **Bölüm:** Bilgisayar Mühendisliği
+- **Öğrenci No:** 235541063
+- **Bölüm:** Yazılım Mühendisliği
 
 ## Kullanılan Teknolojiler
 
