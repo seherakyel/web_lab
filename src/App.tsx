@@ -15,9 +15,9 @@ function App() {
       ============================================================ */}
       <header className="site-header">
         <div className="header-inner">
-          <div className="logo">
+          <div className="logo" aria-label="Seher Akyel kişisel portföy sitesi">
             <span className="logo-bracket">&lt;</span>
-            SeherAkyel
+            Seher<span className="logo-accent">Akyel</span>
             <span className="logo-bracket">/&gt;</span>
           </div>
 
@@ -42,7 +42,7 @@ function App() {
           <div className="hero-content">
             {/* h1 — sayfanın tek ana başlığı (Uygulama-2, Bölüm 5.1) */}
             <h1 id="hero-heading">Seher Akyel</h1>
-            <p className="hero-subtitle">Frontend Geliştirici &amp; Bilgisayar Mühendisliği Öğrencisi</p>
+            <p className="hero-subtitle">Yazılım Mühendisliği Öğrencisi &amp; Frontend Geliştirici</p>
             <div className="hero-actions">
               <a href="#projeler" className="btn btn-primary">Projelerimi Gör</a>
               <a href="#iletisim" className="btn btn-outline">İletişime Geç</a>
@@ -62,8 +62,8 @@ function App() {
               {/* Profil fotoğrafı: figure + figcaption + anlamlı alt metin (Uygulama-2) */}
               <figure className="profile-figure">
                 <img
-                  src="https://api.dicebear.com/8.x/personas/svg?seed=SeherAkyel&backgroundColor=b6e3f4"
-                  alt="Seher Akyel'in karikatür tarzı profil fotoğrafı"
+                  src="https://api.dicebear.com/8.x/personas/svg?seed=SeherAkyel235541063&backgroundColor=b6e3f4"
+                  alt="Seher Akyel'in profil avatarı"
                   className="profile-img"
                   width="240"
                   height="240"
@@ -73,8 +73,9 @@ function App() {
 
               <div className="about-text">
                 <p>
-                  Merhaba! Ben Seher. Bilgisayar Mühendisliği bölümü öğrencisiyim.
-                  Kullanıcı deneyimini ön planda tutan, erişilebilir ve ölçülebilir
+                  Merhaba! Ben Seher. <strong>Yazılım Mühendisliği</strong> bölümü
+                  öğrencisiyim (No: <abbr title="Öğrenci numarası">235541063</abbr>).
+                  Kullanıcı deneyimini ön planda tutan, erişilebilir ve sürdürülebilir
                   web uygulamaları geliştirmeye odaklanıyorum. Açık kaynak projelere
                   katkı vermeyi ve yeni teknolojiler öğrenmeyi seviyorum.
                 </p>
@@ -344,7 +345,7 @@ function App() {
       ============================================================ */}
       <footer className="site-footer">
         <div className="container footer-inner">
-          <p>&copy; 2025 Seher Akyel. Tüm hakları saklıdır.</p>
+          <p>&copy; 2025 Seher Akyel &mdash; Yazılım Mühendisliği &mdash; No: 235541063. Tüm hakları saklıdır.</p>
           <nav aria-label="Sosyal medya bağlantıları">
             <ul className="social-list">
               <li>

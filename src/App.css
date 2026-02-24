@@ -130,6 +130,10 @@ ul {
   color: var(--color-primary);
 }
 
+.logo-accent {
+  color: var(--color-primary);
+}
+
 .nav-list {
   display: flex;
   gap: 0.25rem;
