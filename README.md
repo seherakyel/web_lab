@@ -6,8 +6,8 @@ Vite + React + TypeScript kullanılarak oluşturulmuştur.
 ## Geliştirici
 
 - **Ad Soyad:** Seher Akyel
-- **Öğrenci No:** 
-- **Bölüm:** Bilgisayar Mühendisliği
+- **Öğrenci No:** 235541063
+- **Bölüm:** Yazılım Mühendisliği
 
 ## Kullanılan Teknolojiler
 
@@ -58,3 +58,8 @@ web-lab-hello/
 ## Ekran Görüntüsü
 
 > `npm run dev` ile projeyi başlatıp `http://localhost:5173` adresini ziyaret edin.
+
+## Erişilebilirlik (a11y) Testi
+
+Lighthouse Erişilebilirlik skorum (Hedef 90+):
+> ÖDEV TESLİMİ ÖNCESİ BURAYA EKRAN GÖRÜNTÜSÜNÜ EKLEYİNİZ. ![Lighthouse Score](./lighthouse-sc.png)
