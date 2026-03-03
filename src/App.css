@@ -1,41 +1,15 @@
 /* ================================================================
-   LAB-2 Portfolio — Ana Stil Dosyası
-   Tüm erişilebilirlik gereksinimleri (skip link, focus outline, vb.) dahil
+   LAB-3 Portfolio — Mobile-First Responsive Layout
+   Design tokens -> tokens.css'den import edilir.
+   Breakpoints: Mobil (varsayılan) | Tablet (640px+) | Masaüstü (1024px+)
 ================================================================ */
 
-/* ---- 1. IMPORT & DESIGN TOKENS -------------------------------- */
+@import './styles/tokens.css';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-:root {
-  --color-bg: #0f172a;
-  --color-bg-alt: #1e293b;
-  --color-surface: #1e293b;
-  --color-surface-2: #334155;
-  --color-primary: #38bdf8;
-  --color-primary-dk: #0ea5e9;
-  --color-accent: #818cf8;
-  --color-text: #e2e8f0;
-  --color-text-muted: #94a3b8;
-  --color-border: #334155;
-  --color-error: #f87171;
-  --color-success: #4ade80;
-
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 30px rgba(56, 189, 248, 0.15);
-
-  --transition: 0.25s ease;
-
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  color-scheme: dark;
-}
-
-/* ---- 2. GLOBAL RESET ----------------------------------------- */
+/* ================================================================
+   1. GLOBAL RESET & BASE (Mobil Varsayılan — 0-639px)
+================================================================ */
 *,
 *::before,
 *::after {
@@ -49,8 +23,12 @@ html {
 }
 
 body {
-  background-color: var(--color-bg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.6;
   color: var(--color-text);
+  background-color: var(--color-bg);
+  color-scheme: dark;
   min-height: 100vh;
 }
 
@@ -64,42 +42,48 @@ ul {
   list-style: none;
 }
 
-/* ---- 3. SKIP LINK (a11y — Uygulama-3) ------------------------ */
+/* ================================================================
+   2. SKIP LINK (a11y — LAB-2 korunuyor)
+================================================================ */
 .skip-link {
   position: absolute;
   top: -120px;
-  /* ekran dışında gizli */
   left: 0;
   z-index: 9999;
   background: var(--color-primary);
   color: #0f172a;
-  padding: 10px 20px;
+  padding: var(--space-sm) var(--space-lg);
   font-weight: 700;
   border-radius: 0 0 var(--radius-sm) 0;
   text-decoration: none;
-  transition: top var(--transition);
+  transition: top var(--transition-normal);
 }
 
 .skip-link:focus {
   top: 0;
-  /* Tab basıldığında görünür */
 }
 
-/* ---- 4. FOCUS INDICATOR (a11y — ASLA kaldırılmamalı) --------- */
+/* ================================================================
+   3. FOCUS INDICATOR (a11y — LAB-2 korunuyor, ASLA kaldırılmamalı)
+================================================================ */
 :focus-visible {
   outline: 2.5px solid var(--color-primary);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
 
-/* ---- 5. LAYOUT HELPERS --------------------------------------- */
+/* ================================================================
+   4. LAYOUT HELPERS
+================================================================ */
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 var(--space-md);
 }
 
-/* ---- 6. HEADER ----------------------------------------------- */
+/* ================================================================
+   5. HEADER — Flexbox ile Responsive (Mobil: dikey yığın)
+================================================================ */
 .site-header {
   position: sticky;
   top: 0;
@@ -112,15 +96,15 @@ ul {
 .header-inner {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 1rem 1.5rem;
+  padding: var(--space-md) var(--space-md);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: var(--space-sm);
 }
 
 .logo {
-  font-size: 1.25rem;
+  font-size: var(--text-xl);
   font-weight: 700;
   color: var(--color-text);
   letter-spacing: -0.5px;
@@ -134,37 +118,50 @@ ul {
   color: var(--color-primary);
 }
 
+/* ================================================================
+   6. NAV — Flexbox (Mobil: dikey, sarmalanan)
+================================================================ */
 .nav-list {
   display: flex;
-  gap: 0.25rem;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: var(--space-xs);
 }
 
 .nav-list a {
+  display: block;
+  text-align: center;
+  width: 100%;
   color: var(--color-text-muted);
   text-decoration: none;
-  padding: 0.45rem 0.9rem;
+  padding: var(--space-xs) var(--space-md);
   border-radius: var(--radius-sm);
   font-weight: 500;
-  transition: color var(--transition), background var(--transition);
+  font-size: var(--text-base);
+  transition: color var(--transition-fast), background var(--transition-fast);
 }
 
-.nav-list a:hover {
+.nav-list a:hover,
+.nav-list a:focus {
   color: var(--color-primary);
   background: rgba(56, 189, 248, 0.08);
 }
 
-/* ---- 7. BUTTONS ---------------------------------------------- */
+/* ================================================================
+   7. BUTTONS
+================================================================ */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.6rem 1.4rem;
+  padding: var(--space-sm) var(--space-lg);
   border-radius: var(--radius-sm);
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
-  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  transition: background var(--transition-normal), transform var(--transition-normal), box-shadow var(--transition-normal);
   border: 2px solid transparent;
 }
 
@@ -193,8 +190,8 @@ ul {
 .btn-sm {
   background: var(--color-surface-2);
   color: var(--color-text);
-  padding: 0.4rem 1rem;
-  font-size: 0.85rem;
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--text-sm);
 }
 
 .btn-sm:hover {
@@ -206,14 +203,16 @@ ul {
 .btn-submit {
   width: 100%;
   justify-content: center;
-  padding: 0.85rem;
-  font-size: 1rem;
-  margin-top: 0.5rem;
+  padding: var(--space-sm);
+  font-size: var(--text-base);
+  margin-top: var(--space-sm);
 }
 
-/* ---- 8. SECTIONS --------------------------------------------- */
+/* ================================================================
+   8. SECTIONS (Mobil varsayılan)
+================================================================ */
 .section {
-  padding: 5rem 0;
+  padding: var(--space-xl) 0;
 }
 
 .section--alt {
@@ -221,10 +220,10 @@ ul {
 }
 
 .section h2 {
-  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-size: var(--text-2xl);
   font-weight: 700;
   color: var(--color-text);
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--space-lg);
   position: relative;
   display: inline-block;
 }
@@ -242,17 +241,20 @@ ul {
 
 .section-lead {
   color: var(--color-text-muted);
-  margin-top: -1.5rem;
-  margin-bottom: 2.5rem;
+  font-size: var(--text-base);
+  margin-top: calc(var(--space-lg) * -1);
+  margin-bottom: var(--space-xl);
   max-width: 60ch;
 }
 
-/* ---- 9. HERO ------------------------------------------------- */
+/* ================================================================
+   9. HERO (Mobil varsayılan)
+================================================================ */
 .hero {
-  min-height: 72vh;
+  min-height: 60vh;
   display: flex;
   align-items: center;
-  padding: 4rem 1.5rem;
+  padding: var(--space-2xl) var(--space-md);
   background:
     radial-gradient(ellipse 70% 50% at 60% 40%, rgba(56, 189, 248, 0.12) 0%, transparent 70%),
     var(--color-bg);
@@ -265,92 +267,102 @@ ul {
 }
 
 .hero h1 {
-  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-size: var(--text-hero);
   font-weight: 700;
   line-height: 1.1;
   background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-md);
 }
 
 .hero-subtitle {
-  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-size: var(--text-lg);
   color: var(--color-text-muted);
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-xl);
 }
 
 .hero-actions {
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: var(--space-md);
 }
 
-/* ---- 10. ABOUT ----------------------------------------------- */
+/* ================================================================
+   10. ABOUT (Mobil: tek sütun, ortalanmış)
+================================================================ */
 .about-grid {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 3rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  text-align: center;
 }
 
 .profile-figure {
   text-align: center;
+  max-width: 200px;
 }
 
 .profile-img {
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  border-radius: var(--radius-full);
   border: 3px solid var(--color-primary);
   object-fit: cover;
+  aspect-ratio: 1;
   box-shadow: var(--shadow-glow);
-  margin: 0 auto 0.75rem;
+  margin: 0 auto var(--space-sm);
 }
 
 .profile-figure figcaption {
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
   color: var(--color-text-muted);
 }
 
 .about-text h3 {
-  font-size: 1.15rem;
+  font-size: var(--text-lg);
   font-weight: 600;
   color: var(--color-primary);
-  margin: 1.75rem 0 0.75rem;
+  margin: var(--space-lg) 0 var(--space-sm);
 }
 
 .about-text p {
   color: var(--color-text-muted);
+  font-size: var(--text-base);
   line-height: 1.8;
 }
 
+/* Tech tags — Flexbox wrap toolbar */
 .tech-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--space-sm);
+  justify-content: center;
 }
 
 .tech-list li {
   background: var(--color-surface-2);
   color: var(--color-text);
-  padding: 0.3rem 0.8rem;
-  border-radius: 2rem;
-  font-size: 0.875rem;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
   border: 1px solid var(--color-border);
-  transition: border-color var(--transition);
+  transition: border-color var(--transition-fast);
 }
 
 .tech-list li:hover {
   border-color: var(--color-primary);
 }
 
-/* ---- 11. PROJECTS -------------------------------------------- */
+/* ================================================================
+   11. PROJECTS — CSS Grid ile Kart Düzeni (Mobil: tek sütun)
+================================================================ */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.75rem;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
 }
 
 .project-card {
@@ -359,13 +371,13 @@ ul {
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--shadow-card);
-  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
   display: flex;
   flex-direction: column;
 }
 
 .project-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   border-color: var(--color-primary);
 }
@@ -386,28 +398,28 @@ ul {
 }
 
 .project-figure figcaption {
-  font-size: 0.78rem;
+  font-size: var(--text-sm);
   color: var(--color-text-muted);
-  padding: 0.4rem 1.25rem;
+  padding: var(--space-xs) var(--space-lg);
   background: rgba(0, 0, 0, 0.25);
 }
 
 .project-body {
-  padding: 1.25rem;
+  padding: var(--space-lg);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--space-sm);
   flex: 1;
 }
 
 .project-body h3 {
-  font-size: 1.15rem;
+  font-size: var(--text-lg);
   font-weight: 700;
   color: var(--color-text);
 }
 
 .project-body h4 {
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -416,7 +428,7 @@ ul {
 
 .project-body p {
   color: var(--color-text-muted);
-  font-size: 0.9rem;
+  font-size: var(--text-base);
   line-height: 1.7;
   flex: 1;
 }
@@ -424,20 +436,22 @@ ul {
 .tag-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: var(--space-xs);
 }
 
 .tag-list li {
   background: rgba(56, 189, 248, 0.1);
   color: var(--color-primary);
-  padding: 0.2rem 0.6rem;
-  border-radius: 2rem;
-  font-size: 0.78rem;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
   font-weight: 500;
   border: 1px solid rgba(56, 189, 248, 0.25);
 }
 
-/* ---- 12. CONTACT FORM --------------------------------------- */
+/* ================================================================
+   12. CONTACT FORM (Mobil varsayılan)
+================================================================ */
 .contact-form {
   max-width: 680px;
 }
@@ -445,30 +459,31 @@ ul {
 .contact-form fieldset {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 2rem;
+  padding: var(--space-lg);
   background: var(--color-surface);
 }
 
 .contact-form legend {
-  font-size: 1.05rem;
+  font-size: var(--text-base);
   font-weight: 700;
   color: var(--color-primary);
-  padding: 0 0.75rem;
+  padding: 0 var(--space-sm);
   letter-spacing: 0.02em;
 }
 
-/* Form Group */
 .form-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--space-md);
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: var(--space-xs);
 }
 
 .form-group label {
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--color-text);
+  display: block;
+  margin-bottom: var(--space-xs);
 }
 
 .required-star {
@@ -476,19 +491,18 @@ ul {
   margin-left: 2px;
 }
 
-/* Inputs, Textarea, Select */
 .contact-form input,
 .contact-form textarea,
 .contact-form select {
   width: 100%;
-  padding: 0.65rem 0.85rem;
+  padding: var(--space-sm) var(--space-md);
   background: var(--color-bg);
   color: var(--color-text);
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-sm);
   font-family: inherit;
-  font-size: 0.95rem;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  font-size: var(--text-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   appearance: none;
   -webkit-appearance: none;
 }
@@ -496,8 +510,8 @@ ul {
 .contact-form select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.85rem center;
-  padding-right: 2.5rem;
+  background-position: right var(--space-md) center;
+  padding-right: var(--space-xl);
   cursor: pointer;
 }
 
@@ -517,7 +531,6 @@ ul {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
   outline: none;
-  /* outline zaten box-shadow ile sağlanıyor */
 }
 
 .contact-form textarea {
@@ -525,99 +538,175 @@ ul {
   min-height: 130px;
 }
 
-/* Hata mesajı (Uygulama-4, role="alert") */
 .error-msg {
   color: var(--color-error);
-  font-size: 0.82rem;
+  font-size: var(--text-sm);
   font-weight: 500;
   min-height: 1.2em;
   display: block;
 }
 
-/* İpucu metni */
 .field-hint {
   color: var(--color-text-muted);
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
 }
 
 .form-note {
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
   color: var(--color-text-muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-sm);
 }
 
-/* ---- 13. FOOTER --------------------------------------------- */
+/* ================================================================
+   13. FOOTER (Mobil varsayılan: dikey yığın)
+================================================================ */
 .site-footer {
   background: var(--color-bg-alt);
   border-top: 1px solid var(--color-border);
-  padding: 2rem 0;
+  padding: var(--space-xl) 0;
 }
 
 .footer-inner {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
+  text-align: center;
+  gap: var(--space-md);
 }
 
 .footer-inner p {
   color: var(--color-text-muted);
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
 }
 
 .social-list {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-md);
 }
 
 .social-list a {
   color: var(--color-text-muted);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
   font-weight: 500;
-  transition: color var(--transition);
+  transition: color var(--transition-fast);
 }
 
 .social-list a:hover {
   color: var(--color-primary);
 }
 
-/* ---- 14. RESPONSIVE ----------------------------------------- */
-@media (max-width: 768px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-    text-align: center;
+/* ================================================================
+   14. TABLET BREAKPOINT (640px ve üzeri) — min-width: Mobile-First
+================================================================ */
+@media (min-width: 640px) {
+
+  .container {
+    padding: 0 var(--space-lg);
   }
 
-  .profile-figure {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  /* Header: yatay düzen */
+  .header-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: var(--space-md) var(--space-lg);
   }
 
-  .tech-list {
-    justify-content: center;
+  /* Nav: yatay */
+  .nav-list {
+    flex-direction: row;
+    width: auto;
+    gap: var(--space-xs);
+  }
+
+  .nav-list a {
+    display: inline-block;
+    width: auto;
+    text-align: left;
+  }
+
+  /* Section boşlukları */
+  .section {
+    padding: var(--space-2xl) 0;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 72vh;
+    padding: var(--space-3xl) var(--space-lg);
   }
 
   .hero-actions {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
   }
 
+  /* About: yatay düzen */
+  .about-grid {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
+    gap: var(--space-2xl);
+  }
+
+  .profile-figure {
+    flex-shrink: 0;
+  }
+
+  .tech-list {
+    justify-content: flex-start;
+  }
+
+  /* Project Grid: 2 sütun */
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  /* Form fieldset */
   .contact-form fieldset {
-    padding: 1.25rem;
+    padding: var(--space-xl);
+  }
+
+  /* Submit butonu */
+  .btn-submit {
+    width: auto;
+  }
+
+  /* Footer: yatay düzen */
+  .footer-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
   }
 }
 
-@media (max-width: 480px) {
-  .nav-list a {
-    padding: 0.4rem 0.6rem;
-    font-size: 0.9rem;
+/* ================================================================
+   15. MASAÜSTÜ BREAKPOINT (1024px ve üzeri) — min-width: Mobile-First
+================================================================ */
+@media (min-width: 1024px) {
+
+  /* İçerik genişliği sınırla */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
-  .footer-inner {
-    flex-direction: column;
-    text-align: center;
+  /* Section boşlukları */
+  .section {
+    padding: var(--space-3xl) 0;
+  }
+
+  /* About grid: daha geniş profil */
+  .profile-img {
+    width: 240px;
+    height: 240px;
+  }
+
+  .profile-figure {
+    max-width: 240px;
+  }
+
+  /* Proje kartları: en az 3 sütun */
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
