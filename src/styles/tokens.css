@@ -1,0 +1,61 @@
+/* ================================================================
+   Design Tokens — LAB-3
+   Tüm tasarım kararları (renk, tipografi, boşluk, gölge, geçiş)
+   tek bir kaynakta toplanmıştır.
+================================================================ */
+
+:root {
+  /* --- Renk Paleti --- */
+  --color-bg: #0f172a;
+  --color-bg-alt: #1e293b;
+  --color-surface: #1e293b;
+  --color-surface-2: #334155;
+  --color-primary: #38bdf8;
+  --color-primary-dk: #0ea5e9;
+  --color-secondary: #2563eb;
+  --color-accent: #818cf8;
+  --color-text: #e2e8f0;
+  --color-text-muted: #94a3b8;
+  --color-border: #334155;
+  --color-error: #f87171;
+  --color-success: #4ade80;
+
+  /* --- Spacing (Boşluk) Skalası --- */
+  --space-xs: 0.25rem;   /* 4px  */
+  --space-sm: 0.5rem;    /* 8px  */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+  --space-2xl: 3rem;     /* 48px */
+  --space-3xl: 4rem;     /* 64px */
+
+  /* --- Border Radius --- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  /* --- Font Aileleri --- */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Fira Code', 'Consolas', monospace;
+
+  /* --- Font Boyutları (Fluid Typography — clamp) --- */
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.9rem);
+  --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.6vw, 1.35rem);
+  --text-xl: clamp(1.25rem, 1rem + 1.2vw, 1.75rem);
+  --text-2xl: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  --text-3xl: clamp(2rem, 1.2rem + 3vw, 3.5rem);
+  --text-hero: clamp(2.5rem, 1.5rem + 5vw, 4.5rem);
+
+  /* --- Gölge --- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 30px rgba(56, 189, 248, 0.15);
+
+  /* --- Geçiş --- */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+}
