@@ -1,12 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #2563EB;
+  --color-secondary: #7C3AED;
+  --color-accent: #1E3A8A;
+  --color-surface: #F9FAFB;
+  --color-muted: #6B7280;
+  --color-error: #DC2626;
+  --color-success: #16A34A;
+
+  --font-family-sans: system-ui, -apple-system, sans-serif;
+  --font-family-mono: 'Fira Code', 'Consolas', monospace;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   font-family: 'Inter', system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: dark;
-  background-color: #0f0f1a;
-  color: #e2e8f0;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@layer base {
+  body {
+    @apply bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors;
+  }
 }
