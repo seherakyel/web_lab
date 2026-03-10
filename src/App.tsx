@@ -1,225 +1,235 @@
-import './App.css';
+import Button from './components/Button';
+import Input from './components/Input';
+import Card from './components/Card';
+import Alert from './components/Alert';
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [theme, setTheme] = useState('light');
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormSubmitted(true);
+    setTimeout(() => setFormSubmitted(false), 5000); // Hide after 5 seconds
+  };
+
   return (
-    <>
+    <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans transition-colors">
       {/* ============================================================
           SKIP LINK — klavye kullanıcıları için (Uygulama-3)
       ============================================================ */}
-      <a href="#main-content" className="skip-link">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-blue-800 text-white p-2 z-50">
         Ana içeriğe atla
       </a>
 
       {/* ============================================================
-          HEADER + NAV (Uygulama-1, Uygulama-3)
+          DARK MODE TOGGLE (Uygulama-5)
       ============================================================ */}
-      <header className="site-header">
-        <div className="header-inner">
-          <div className="logo" aria-label="Seher Akyel kişisel portföy sitesi">
-            <span className="logo-bracket">&lt;</span>
-            Seher<span className="logo-accent">Akyel</span>
-            <span className="logo-bracket">/&gt;</span>
+      <button
+        onClick={toggleTheme}
+        className="fixed bottom-4 right-4 md:top-4 md:bottom-auto z-50 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-3 rounded-full shadow-lg hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-blue-500"
+        aria-label="Tema değiştir"
+      >
+        <span className="dark:hidden" aria-hidden="true">&#9790;</span>
+        <span className="hidden dark:inline" aria-hidden="true">&#9728;</span>
+      </button>
+
+      {/* ============================================================
+          HEADER + NAV (Uygulama-10)
+      ============================================================ */}
+      <header className="sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 transition-colors">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+          <div className="text-xl font-bold text-blue-800 dark:text-blue-400" aria-label="Seher Akyel kişisel portföy sitesi">
+            <span className="text-gray-400">&lt;</span>
+            Seher<span className="text-blue-600 dark:text-blue-300">Akyel</span>
+            <span className="text-gray-400">/&gt;</span>
           </div>
 
-          {/* aria-label ile etiketli navigasyon (Uygulama-3) */}
           <nav aria-label="Ana navigasyon">
-            <ul className="nav-list">
-              <li><a href="#hakkimda">Hakkımda</a></li>
-              <li><a href="#projeler">Projeler</a></li>
-              <li><a href="#iletisim">İletişim</a></li>
+            <ul className="flex flex-wrap gap-2 justify-center">
+              <li>
+                <a href="#hakkimda" className="px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-300 hover:bg-blue-50 text-blue-800 dark:hover:bg-gray-800 dark:hover:text-blue-300 transition-colors">
+                  Hakkımda
+                </a>
+              </li>
+              <li>
+                <a href="#projeler" className="px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-300 hover:bg-blue-50 text-blue-800 dark:hover:bg-gray-800 dark:hover:text-blue-300 transition-colors">
+                  Projeler
+                </a>
+              </li>
+              <li>
+                <a href="#iletisim" className="px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-300 hover:bg-blue-50 text-blue-800 dark:hover:bg-gray-800 dark:hover:text-blue-300 transition-colors">
+                  İletişim
+                </a>
+              </li>
+              <li>
+                <a href="/uikit" className="px-3 py-2 rounded-md font-medium text-purple-700 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-gray-800 border border-purple-200 dark:border-purple-800 transition-colors">
+                  UI Kit
+                </a>
+              </li>
             </ul>
           </nav>
         </div>
       </header>
 
       {/* ============================================================
-          MAIN — sayfada yalnızca bir tane (Uygulama-1)
+          MAIN
       ============================================================ */}
       <main id="main-content">
-
         {/* ---- HERO ---- */}
-        <section className="hero" aria-labelledby="hero-heading">
-          <div className="hero-content">
-            {/* h1 — sayfanın tek ana başlığı (Uygulama-2, Bölüm 5.1) */}
-            <h1 id="hero-heading">Seher Akyel</h1>
-            <p className="hero-subtitle">Yazılım Mühendisliği Öğrencisi &amp; Frontend Geliştirici</p>
-            <div className="hero-actions">
-              <a href="#projeler" className="btn btn-primary">Projelerimi Gör</a>
-              <a href="#iletisim" className="btn btn-outline">İletişime Geç</a>
+        <section className="py-20 px-4 text-center bg-gray-50 dark:bg-gray-950 border-b border-gray-100 dark:border-gray-900" aria-labelledby="hero-heading">
+          <div className="max-w-4xl mx-auto">
+            <h1 id="hero-heading" className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight">
+              Seher Akyel
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+              Yazılım Mühendisliği Öğrencisi &amp; Frontend Geliştirici
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="#projeler"><Button variant="primary" size="lg" className="w-full sm:w-auto">Projelerimi Gör</Button></a>
+              <a href="#iletisim"><Button variant="secondary" size="lg" className="w-full sm:w-auto">İletişime Geç</Button></a>
             </div>
           </div>
         </section>
 
         {/* ============================================================
-            HAKKIMDA BÖLÜMÜ (Uygulama-2, Uygulama-5)
+            HAKKIMDA BÖLÜMÜ
         ============================================================ */}
-        <section id="hakkimda" className="section" aria-labelledby="hakkimda-baslik">
-          <div className="container">
-            {/* h2 — bölüm başlığı (Bölüm 5.1) */}
-            <h2 id="hakkimda-baslik">Hakkımda</h2>
+        <section id="hakkimda" className="py-16 px-4" aria-labelledby="hakkimda-baslik">
+          <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-10">
+            <figure className="shrink-0 group">
+              <img
+                src="https://api.dicebear.com/8.x/personas/svg?seed=SeherAkyel235541063&backgroundColor=b6e3f4"
+                alt="Seher Akyel'in profil avatarı"
+                className="w-48 h-48 md:w-56 md:h-56 rounded-full object-cover shadow-xl border-4 border-white dark:border-gray-800 group-hover:scale-105 transition-transform duration-300"
+                width="224"
+                height="224"
+              />
+              <figcaption className="sr-only">Seher Akyel — Frontend Geliştirici</figcaption>
+            </figure>
 
-            <div className="about-grid">
-              {/* Profil fotoğrafı: figure + figcaption + anlamlı alt metin (Uygulama-2) */}
-              <figure className="profile-figure">
-                <img
-                  src="https://api.dicebear.com/8.x/personas/svg?seed=SeherAkyel235541063&backgroundColor=b6e3f4"
-                  alt="Seher Akyel'in profil avatarı"
-                  className="profile-img"
-                  width="240"
-                  height="240"
-                />
-                <figcaption>Seher Akyel — Frontend Geliştirici</figcaption>
-              </figure>
+            <div className="flex-1 text-center md:text-left">
+              <h2 id="hakkimda-baslik" className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+                Hakkımda
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                Merhaba! Ben Seher. <strong className="text-gray-900 dark:text-white">Yazılım Mühendisliği</strong> bölümü
+                öğrencisiyim (No: 235541063). Kullanıcı deneyimini ön planda tutan, erişilebilir ve sürdürülebilir
+                web uygulamaları geliştirmeye odaklanıyorum.
+              </p>
 
-              <div className="about-text">
-                <p>
-                  Merhaba! Ben Seher. <strong>Yazılım Mühendisliği</strong> bölümü
-                  öğrencisiyim (No: <abbr title="Öğrenci numarası">235541063</abbr>).
-                  Kullanıcı deneyimini ön planda tutan, erişilebilir ve sürdürülebilir
-                  web uygulamaları geliştirmeye odaklanıyorum. Açık kaynak projelere
-                  katkı vermeyi ve yeni teknolojiler öğrenmeyi seviyorum.
-                </p>
-
-                {/* h3 — alt bölüm başlığı (Bölüm 5.1) */}
-                <h3>Kullandığım Teknolojiler</h3>
-                <ul className="tech-list" aria-label="Kullanılan teknolojiler listesi">
-                  <li>HTML5 &amp; Semantik Web</li>
-                  <li>CSS3 / Flexbox / Grid</li>
-                  <li>JavaScript (ES6+)</li>
-                  <li>React &amp; TypeScript</li>
-                  <li>Git &amp; GitHub</li>
-                  <li>Node.js / Express</li>
-                </ul>
-              </div>
+              <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Kullandığım Teknolojiler</h3>
+              <ul className="flex flex-wrap gap-2 justify-center md:justify-start" aria-label="Kullanılan teknolojiler listesi">
+                <li className="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-medium shadow-sm">HTML5 &amp; CSS3</li>
+                <li className="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-medium shadow-sm">Tailwind CSS</li>
+                <li className="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-medium shadow-sm">JavaScript (ES6+)</li>
+                <li className="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-medium shadow-sm">React &amp; TypeScript</li>
+                <li className="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-medium shadow-sm">Git &amp; GitHub</li>
+                <li className="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-medium shadow-sm">Node.js</li>
+              </ul>
             </div>
           </div>
         </section>
 
         {/* ============================================================
-            PROJELERİM BÖLÜMÜ (Uygulama-5)
+            PROJELERİM BÖLÜMÜ
         ============================================================ */}
-        <section id="projeler" className="section section--alt" aria-labelledby="projeler-baslik">
-          <div className="container">
-            {/* h2 — bölüm başlığı */}
-            <h2 id="projeler-baslik">Projelerim</h2>
+        <section id="projeler" className="py-20 px-4 bg-gray-50 dark:bg-gray-900 transition-colors" aria-labelledby="projeler-baslik">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 id="projeler-baslik" className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                Projelerim
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                Geliştirdiğim bazı önemli projelere aşağıdan göz atabilirsiniz.
+              </p>
+            </div>
 
-            <div className="projects-grid">
-
-              {/* Proje 1 — article: bağımsız ve kendi başına anlamlı içerik */}
-              <article className="project-card" aria-labelledby="proje1-baslik">
-                <figure className="project-figure">
-                  <img
-                    src="https://placehold.co/600x340/1e3a5f/b6e3f4?text=E-Ticaret+Sitesi"
-                    alt="Ürün listesi, sepet ve ödeme adımlarını gösteren e-ticaret uygulaması ekran görüntüsü"
-                    className="project-img"
-                    width="600"
-                    height="340"
-                    loading="lazy"
-                  />
-                  <figcaption>E-Ticaret Uygulaması — Ana sayfa görünümü</figcaption>
-                </figure>
-                <div className="project-body">
-                  {/* h3 — proje başlığı, h2'nin altında (Bölüm 5.1) */}
-                  <h3 id="proje1-baslik">E-Ticaret Sitesi</h3>
-                  <p>
-                    React ve Node.js ile geliştirilen tam işlevsel bir e-ticaret
-                    uygulaması. Ürün filtreleme, sepet yönetimi ve güvenli ödeme
-                    akışı içermektedir.
+            {/* Grid Yapısı (Uygulama-4) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Proje 1 */}
+              <article aria-labelledby="proje1-baslik" className="h-full">
+                <Card
+                  variant="elevated"
+                  title="E-Ticaret Sitesi"
+                  image="https://placehold.co/600x340/1e3a5f/b6e3f4?text=E-Ticaret"
+                  imageAlt="E-Ticaret anasayfa görünümü"
+                  className="h-full flex flex-col"
+                  footer={
+                    <a href="https://github.com/sehermac" target="_blank" rel="noopener noreferrer" className="block w-full">
+                      <Button variant="ghost" className="w-full text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold" aria-label="E-Ticaret sitesini GitHub'da gör">GitHub'da Görüntüle &rarr;</Button>
+                    </a>
+                  }>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4 h-20">
+                    React ve Node.js ile tam kapsamlı e-ticaret uygulaması. Sepet yönetimi ve ödeme akışı mevcuttur.
                   </p>
-                  <h4>Kullanılan Teknolojiler</h4>
-                  <ul className="tag-list" aria-label="Proje 1 teknolojileri">
-                    <li>React</li>
-                    <li>Node.js</li>
-                    <li>MongoDB</li>
-                    <li>Express.js</li>
+                  <ul className="flex flex-wrap gap-2 mt-auto" aria-label="Proje 1 teknolojileri">
+                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">React</li>
+                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Node.js</li>
+                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">MongoDB</li>
                   </ul>
-                  <a
-                    href="https://github.com/sehermac"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-sm"
-                    aria-label="E-Ticaret Sitesi projesini GitHub'da görüntüle"
-                  >
-                    GitHub'da Görüntüle
-                  </a>
-                </div>
+                </Card>
               </article>
 
               {/* Proje 2 */}
-              <article className="project-card" aria-labelledby="proje2-baslik">
-                <figure className="project-figure">
-                  <img
-                    src="https://placehold.co/600x340/1a3a2e/86efac?text=Blog+Uygulamasi"
-                    alt="Makale listesi ve zengin metin editörünü gösteren blog uygulaması ekran görüntüsü"
-                    className="project-img"
-                    width="600"
-                    height="340"
-                    loading="lazy"
-                  />
-                  <figcaption>Blog Uygulaması — Makale listesi görünümü</figcaption>
-                </figure>
-                <div className="project-body">
-                  <h3 id="proje2-baslik">Blog Uygulaması</h3>
-                  <p>
-                    TypeScript ve React ile geliştirilmiş, Markdown desteği sunan
-                    kişisel blog platformu. Yazar paneli, kategori yönetimi ve
-                    yorum sistemi içermektedir.
+              <article aria-labelledby="proje2-baslik" className="h-full">
+                <Card
+                  variant="elevated"
+                  title="Blog Uygulaması"
+                  image="https://placehold.co/600x340/1a3a2e/86efac?text=Blog+App"
+                  imageAlt="Blog makale listesi görünümü"
+                  className="h-full flex flex-col"
+                  footer={
+                    <a href="https://github.com/sehermac" target="_blank" rel="noopener noreferrer" className="block w-full">
+                      <Button variant="ghost" className="w-full text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold" aria-label="Blog uygulamasını GitHub'da gör">GitHub'da Görüntüle &rarr;</Button>
+                    </a>
+                  }>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4 h-20">
+                    TypeScript ve React ile Markdown destekli kişisel blog platformu. Zengin metin editörü barındırır.
                   </p>
-                  <h4>Kullanılan Teknolojiler</h4>
-                  <ul className="tag-list" aria-label="Proje 2 teknolojileri">
-                    <li>TypeScript</li>
-                    <li>React</li>
-                    <li>Vite</li>
-                    <li>PostgreSQL</li>
+                  <ul className="flex flex-wrap gap-2 mt-auto" aria-label="Proje 2 teknolojileri">
+                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">TypeScript</li>
+                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">React</li>
+                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Vite</li>
                   </ul>
-                  <a
-                    href="https://github.com/sehermac"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-sm"
-                    aria-label="Blog Uygulaması projesini GitHub'da görüntüle"
-                  >
-                    GitHub'da Görüntüle
-                  </a>
-                </div>
+                </Card>
               </article>
 
               {/* Proje 3 */}
-              <article className="project-card" aria-labelledby="proje3-baslik">
-                <figure className="project-figure">
-                  <img
-                    src="https://placehold.co/600x340/2d1a3a/d8b4fe?text=Gorev+Yoneticisi"
-                    alt="Kanban tahtası ve görev kartlarını gösteren görev yöneticisi uygulaması ekran görüntüsü"
-                    className="project-img"
-                    width="600"
-                    height="340"
-                    loading="lazy"
-                  />
-                  <figcaption>Görev Yöneticisi — Kanban görünümü</figcaption>
-                </figure>
-                <div className="project-body">
-                  <h3 id="proje3-baslik">Görev Yöneticisi</h3>
-                  <p>
-                    Drag-and-drop destekli Kanban tabanlı görev yöneticisi. Takımlar
-                    için gerçek zamanlı colaborasyon ve raporlama özellikleri sunar.
+              <article aria-labelledby="proje3-baslik" className="h-full">
+                <Card
+                  variant="elevated"
+                  title="Görev Yöneticisi"
+                  image="https://placehold.co/600x340/2d1a3a/d8b4fe?text=Kanban"
+                  imageAlt="Kanban tahtası görünümü"
+                  className="h-full flex flex-col"
+                  footer={
+                    <a href="https://github.com/sehermac" target="_blank" rel="noopener noreferrer" className="block w-full">
+                      <Button variant="ghost" className="w-full text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold" aria-label="Görev yöneticisini GitHub'da gör">GitHub'da Görüntüle &rarr;</Button>
+                    </a>
+                  }>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4 h-20">
+                    Drag-and-drop destekli Kanban tabanlı görev yöneticisi. Gerçek zamanlı senkronizasyon içerir.
                   </p>
-                  <h4>Kullanılan Teknolojiler</h4>
-                  <ul className="tag-list" aria-label="Proje 3 teknolojileri">
-                    <li>React</li>
-                    <li>Socket.io</li>
-                    <li>Redux</li>
-                    <li>Express.js</li>
+                  <ul className="flex flex-wrap gap-2 mt-auto" aria-label="Proje 3 teknolojileri">
+                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">React</li>
+                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Redux</li>
+                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Socket.io</li>
                   </ul>
-                  <a
-                    href="https://github.com/sehermac"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-sm"
-                    aria-label="Görev Yöneticisi projesini GitHub'da görüntüle"
-                  >
-                    GitHub'da Görüntüle
-                  </a>
-                </div>
+                </Card>
               </article>
 
             </div>
@@ -227,79 +237,56 @@ function App() {
         </section>
 
         {/* ============================================================
-            İLETİŞİM BÖLÜMÜ — Doğrulamalı Form (Uygulama-4, Uygulama-5)
+            İLETİŞİM BÖLÜMÜ
         ============================================================ */}
-        <section id="iletisim" className="section" aria-labelledby="iletisim-baslik">
-          <div className="container">
-            {/* h2 — bölüm başlığı */}
-            <h2 id="iletisim-baslik">İletişim</h2>
-            <p className="section-lead">
-              Bir projen mi var? Benimle çalışmak ister misin? Aşağıdaki formu
-              doldurarak mesaj gönderebilirsin.
-            </p>
+        <section id="iletisim" className="py-20 px-4" aria-labelledby="iletisim-baslik">
+          <div className="max-w-xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 id="iletisim-baslik" className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                İletişim
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400">
+                Benimle çalışmak istersen aşağıdaki formu doldurarak mesaj gönderebilirsin.
+              </p>
+            </div>
 
-            {/*
-              novalidate: tarayıcı balonlarını devre dışı bırakır,
-              özel hata alanları (role="alert") aktif hale gelir.
-              (Bölüm 8, Uygulama-4)
-            */}
-            <form
-              action="#"
-              method="POST"
-              noValidate
-              className="contact-form"
-              aria-labelledby="form-legend"
-            >
-              <fieldset>
-                <legend id="form-legend">İletişim Formu</legend>
+            {formSubmitted && (
+              <Alert variant="success" title="Başarılı!" dismissible onDismiss={() => setFormSubmitted(false)} className="mb-6 shadow-sm">
+                Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağım.
+              </Alert>
+            )}
 
-                {/* Ad Soyad */}
-                <div className="form-group">
-                  {/* for/id eşleşmesi — label ilişkisi (Bölüm 7.1) */}
-                  <label htmlFor="name">Ad Soyad: <span aria-hidden="true" className="required-star">*</span></label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    minLength={2}
-                    maxLength={80}
-                    autoComplete="name"
-                    placeholder="Örnek: Ahmet Yılmaz"
-                    aria-required="true"
-                    aria-describedby="name-error"
-                  />
-                  {/* role="alert" — içerik eklendiğinde ekran okuyucu sesli okur (Bölüm 8) */}
-                  <small id="name-error" className="error-msg" role="alert"></small>
-                </div>
+            <Card variant="outlined" className="p-2 sm:p-6 !border-gray-200 dark:!border-gray-800 shadow-xl bg-white dark:bg-gray-900">
+              <form onSubmit={handleFormSubmit} className="space-y-6" noValidate aria-labelledby="form-legend">
+                <legend id="form-legend" className="sr-only">İletişim Formu</legend>
 
-                {/* E-posta */}
-                <div className="form-group">
-                  <label htmlFor="email">E-posta: <span aria-hidden="true" className="required-star">*</span></label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    autoComplete="email"
-                    placeholder="Örnek: ad@mail.com"
-                    aria-required="true"
-                    aria-describedby="email-error email-help"
-                  />
-                  {/* aria-describedby ile ek açıklama bağlantısı (Bölüm 6.1) */}
-                  <small id="email-help" className="field-hint">E-posta adresiniz yalnızca yanıt vermek için kullanılacaktır.</small>
-                  <small id="email-error" className="error-msg" role="alert"></small>
-                </div>
+                <Input
+                  id="name"
+                  name="name"
+                  label="Ad Soyad (*)"
+                  placeholder="Örnek: Ahmet Yılmaz"
+                  required
+                />
 
-                {/* Konu — select elemanı */}
-                <div className="form-group">
-                  <label htmlFor="subject">Konu: <span aria-hidden="true" className="required-star">*</span></label>
+                <Input
+                  id="email"
+                  name="email"
+                  label="E-posta (*)"
+                  type="email"
+                  placeholder="Örnek: ad@mail.com"
+                  helpText="E-posta adresiniz yalnızca yanıt vermek için kullanılacaktır."
+                  required
+                />
+
+                <div className="space-y-1">
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Konu (*)
+                  </label>
                   <select
                     id="subject"
                     name="subject"
                     required
-                    aria-required="true"
-                    aria-describedby="subject-error"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">-- Seçiniz --</option>
                     <option value="is">İş Teklifi</option>
@@ -307,64 +294,48 @@ function App() {
                     <option value="oneri">Öneri</option>
                     <option value="diger">Diğer</option>
                   </select>
-                  <small id="subject-error" className="error-msg" role="alert"></small>
                 </div>
 
-                {/* Mesaj — textarea */}
-                <div className="form-group">
-                  <label htmlFor="message">Mesajınız: <span aria-hidden="true" className="required-star">*</span></label>
+                <div className="space-y-1">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Mesajınız (*)
+                  </label>
                   <textarea
                     id="message"
                     name="message"
                     rows={5}
                     required
-                    minLength={10}
-                    maxLength={1000}
-                    placeholder="Mesajınızı buraya yazın (en az 10 karakter)..."
-                    aria-required="true"
-                    aria-describedby="message-error"
+                    placeholder="Mesajınızı buraya yazın..."
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y"
                   ></textarea>
-                  <small id="message-error" className="error-msg" role="alert"></small>
                 </div>
 
-                <p className="form-note"><span aria-hidden="true" className="required-star">*</span> Zorunlu alan</p>
-
-                {/* button type="submit" — esnek içerik (Bölüm 7) */}
-                <button type="submit" className="btn btn-primary btn-submit">
-                  Gönder
-                </button>
-              </fieldset>
-            </form>
+                <div className="pt-2">
+                  <Button variant="primary" size="lg" type="submit" className="w-full sm:w-auto shadow-md hover:shadow-lg">
+                    Gönder
+                  </Button>
+                </div>
+              </form>
+            </Card>
           </div>
         </section>
-
       </main>
 
       {/* ============================================================
-          FOOTER (Uygulama-1, Uygulama-5)
+          FOOTER
       ============================================================ */}
-      <footer className="site-footer">
-        <div className="container footer-inner">
-          <p>&copy; 2025 Seher Akyel &mdash; Yazılım Mühendisliği &mdash; No: 235541063. Tüm hakları saklıdır.</p>
+      <footer className="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 text-center py-10 px-4 text-gray-500 dark:text-gray-400 text-sm mt-auto transition-colors">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+          <p>&copy; {new Date().getFullYear()} Seher Akyel — Yazılım Mühendisliği (235541063).</p>
           <nav aria-label="Sosyal medya bağlantıları">
-            <ul className="social-list">
+            <ul className="flex flex-wrap justify-center gap-6">
               <li>
-                <a
-                  href="https://github.com/sehermac"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub profilini görüntüle"
-                >
+                <a href="https://github.com/sehermac" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 dark:hover:text-white transition-colors" aria-label="GitHub profilini görüntüle">
                   GitHub
                 </a>
               </li>
               <li>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn profilini görüntüle"
-                >
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 dark:hover:text-white transition-colors" aria-label="LinkedIn profilini görüntüle">
                   LinkedIn
                 </a>
               </li>
@@ -372,7 +343,7 @@ function App() {
           </nav>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
 
