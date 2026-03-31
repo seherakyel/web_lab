@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "title": "E-Ticaret Platformu",
+    "description": "React ve Node.js ile tam kapsamlı e-ticaret uygulaması.",
+    "tech": ["React", "Node.js", "MongoDB"],
+    "year": 2024,
+    "category": "fullstack",
+    "featured": true,
+    "image": "https://placehold.co/600x340/1e3a5f/b6e3f4?text=E-Ticaret"
+  },
+  {
+    "id": 2,
+    "title": "Blog Uygulaması",
+    "description": "Next.js ile SEO dostu kişisel blog platformu.",
+    "tech": ["Next.js", "TypeScript", "Tailwind"],
+    "year": 2024,
+    "category": "frontend",
+    "featured": false,
+    "image": "https://placehold.co/600x340/1a3a2e/86efac?text=Blog"
+  },
+  {
+    "id": 3,
+    "title": "Hava Durumu API",
+    "description": "OpenWeather API ile anlık hava durumu sorgulama.",
+    "tech": ["JavaScript", "REST API", "CSS"],
+    "year": 2023,
+    "category": "frontend",
+    "featured": true,
+    "image": "https://placehold.co/600x340/0f172a/38bdf8?text=Weather"
+  },
+  {
+    "id": 4,
+    "title": "Görev Yöneticisi",
+    "description": "Drag-and-drop destekli Kanban tarzı görev panosu.",
+    "tech": ["React", "TypeScript", "DnD Kit"],
+    "year": 2024,
+    "category": "frontend",
+    "featured": false,
+    "image": "https://placehold.co/600x340/2d1a3a/d8b4fe?text=Kanban"
+  },
+  {
+    "id": 5,
+    "title": "Chat Uygulaması",
+    "description": "WebSocket ile gerçek zamanlı mesajlaşma.",
+    "tech": ["React", "Socket.io", "Express"],
+    "year": 2023,
+    "category": "fullstack",
+    "featured": true,
+    "image": "https://placehold.co/600x340/14532d/86efac?text=Chat"
+  }
+]
