@@ -3,10 +3,36 @@ import Input from './components/Input';
 import Card from './components/Card';
 import Alert from './components/Alert';
 import { useState, useEffect } from 'react';
+import type { Category, Project, SortField, SortOrder } from './types/project';
+import { fetchProjects } from './services/projectService';
+import { applyFilters } from './utils/projectHelpers';
+
+function categoryButtonLabel(cat: Category | 'all'): string {
+  switch (cat) {
+    case 'all':
+      return 'Tümü';
+    case 'frontend':
+      return 'Frontend';
+    case 'fullstack':
+      return 'Full Stack';
+    case 'backend':
+      return 'Backend';
+    default:
+      return cat;
+  }
+}
 
 function App() {
   const [theme, setTheme] = useState('light');
   const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState<Category | 'all'>('all');
+  const [sortField, setSortField] = useState<SortField>('year');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+  const [projectsLoading, setProjectsLoading] = useState(true);
+  const [projectsError, setProjectsError] = useState<string | null>(null);
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -15,6 +41,26 @@ function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        setProjectsLoading(true);
+        setProjectsError(null);
+        const data = await fetchProjects();
+        setProjects(data);
+      } catch (err) {
+        console.error('Veri çekme hatası:', err);
+        setProjectsError(err instanceof Error ? err.message : 'Bilinmeyen hata');
+      } finally {
+        setProjectsLoading(false);
+      }
+    }
+    void load();
+  }, []);
+
+  const filtered = applyFilters(projects, search, category, sortField, sortOrder);
+  const categories: (Category | 'all')[] = ['all', 'frontend', 'fullstack', 'backend'];
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -154,85 +200,146 @@ function App() {
                 Projelerim
               </h2>
               <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                Geliştirdiğim bazı önemli projelere aşağıdan göz atabilirsiniz.
+                Veriler <code className="text-sm bg-gray-200 dark:bg-gray-800 px-1 rounded">public/data/projects.json</code> dosyasından fetch edilir; arama, kategori ve sıralama state ile yönetilir.
               </p>
             </div>
 
-            {/* Grid Yapısı (Uygulama-4) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Proje 1 */}
-              <article aria-labelledby="proje1-baslik" className="h-full">
-                <Card
-                  variant="elevated"
-                  title="E-Ticaret Sitesi"
-                  image="https://placehold.co/600x340/1e3a5f/b6e3f4?text=E-Ticaret"
-                  imageAlt="E-Ticaret anasayfa görünümü"
-                  className="h-full flex flex-col"
-                  footer={
-                    <a href="https://github.com/sehermac" target="_blank" rel="noopener noreferrer" className="block w-full">
-                      <Button variant="ghost" className="w-full text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold" aria-label="E-Ticaret sitesini GitHub'da gör">GitHub'da Görüntüle &rarr;</Button>
-                    </a>
-                  }>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 h-20">
-                    React ve Node.js ile tam kapsamlı e-ticaret uygulaması. Sepet yönetimi ve ödeme akışı mevcuttur.
-                  </p>
-                  <ul className="flex flex-wrap gap-2 mt-auto" aria-label="Proje 1 teknolojileri">
-                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">React</li>
-                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Node.js</li>
-                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">MongoDB</li>
-                  </ul>
-                </Card>
-              </article>
+            {projectsError && (
+              <Alert variant="error" title="Hata" className="mb-8">
+                {projectsError}
+              </Alert>
+            )}
 
-              {/* Proje 2 */}
-              <article aria-labelledby="proje2-baslik" className="h-full">
-                <Card
-                  variant="elevated"
-                  title="Blog Uygulaması"
-                  image="https://placehold.co/600x340/1a3a2e/86efac?text=Blog+App"
-                  imageAlt="Blog makale listesi görünümü"
-                  className="h-full flex flex-col"
-                  footer={
-                    <a href="https://github.com/sehermac" target="_blank" rel="noopener noreferrer" className="block w-full">
-                      <Button variant="ghost" className="w-full text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold" aria-label="Blog uygulamasını GitHub'da gör">GitHub'da Görüntüle &rarr;</Button>
-                    </a>
-                  }>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 h-20">
-                    TypeScript ve React ile Markdown destekli kişisel blog platformu. Zengin metin editörü barındırır.
-                  </p>
-                  <ul className="flex flex-wrap gap-2 mt-auto" aria-label="Proje 2 teknolojileri">
-                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">TypeScript</li>
-                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">React</li>
-                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Vite</li>
-                  </ul>
-                </Card>
-              </article>
+            {!projectsLoading && !projectsError && (
+              <div className="flex flex-col sm:flex-row gap-4 mb-8 items-stretch sm:items-center flex-wrap">
+                <div className="flex-1 min-w-[200px]">
+                  <Input
+                    id="search"
+                    name="search"
+                    placeholder="Proje ara (başlık, açıklama, teknoloji)…"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    aria-label="Proje ara"
+                  />
+                </div>
+                <div className="flex gap-2 flex-wrap" role="group" aria-label="Kategori filtresi">
+                  {categories.map((cat) => (
+                    <Button
+                      key={cat}
+                      variant={category === cat ? 'primary' : 'ghost'}
+                      size="sm"
+                      type="button"
+                      onClick={() => setCategory(cat)}
+                      aria-pressed={category === cat}
+                    >
+                      {categoryButtonLabel(cat)}
+                    </Button>
+                  ))}
+                </div>
+                <div className="flex gap-2 items-center">
+                  <label htmlFor="sort-field" className="sr-only">
+                    Sıralama alanı
+                  </label>
+                  <select
+                    id="sort-field"
+                    value={sortField}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (v === 'year' || v === 'title') setSortField(v);
+                    }}
+                    className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm dark:bg-gray-800 dark:text-white"
+                  >
+                    <option value="year">Yıl</option>
+                    <option value="title">Başlık</option>
+                  </select>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    type="button"
+                    onClick={() => setSortOrder((o) => (o === 'asc' ? 'desc' : 'asc'))}
+                    aria-label={sortOrder === 'asc' ? 'Sıralama: artan, azalan yap' : 'Sıralama: azalan, artan yap'}
+                  >
+                    {sortOrder === 'asc' ? 'A-Z / eski→yeni' : 'Z-A / yeni→eski'}
+                  </Button>
+                </div>
+              </div>
+            )}
 
-              {/* Proje 3 */}
-              <article aria-labelledby="proje3-baslik" className="h-full">
-                <Card
-                  variant="elevated"
-                  title="Görev Yöneticisi"
-                  image="https://placehold.co/600x340/2d1a3a/d8b4fe?text=Kanban"
-                  imageAlt="Kanban tahtası görünümü"
-                  className="h-full flex flex-col"
-                  footer={
-                    <a href="https://github.com/sehermac" target="_blank" rel="noopener noreferrer" className="block w-full">
-                      <Button variant="ghost" className="w-full text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold" aria-label="Görev yöneticisini GitHub'da gör">GitHub'da Görüntüle &rarr;</Button>
-                    </a>
-                  }>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 h-20">
-                    Drag-and-drop destekli Kanban tabanlı görev yöneticisi. Gerçek zamanlı senkronizasyon içerir.
-                  </p>
-                  <ul className="flex flex-wrap gap-2 mt-auto" aria-label="Proje 3 teknolojileri">
-                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">React</li>
-                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Redux</li>
-                    <li className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Socket.io</li>
-                  </ul>
-                </Card>
-              </article>
+            {projectsLoading && (
+              <p className="text-center text-gray-500 dark:text-gray-400 py-12" role="status" aria-live="polite">
+                Yükleniyor…
+              </p>
+            )}
 
-            </div>
+            {!projectsLoading && !projectsError && filtered.length === 0 && (
+              <p className="text-center text-gray-500 dark:text-gray-400 py-12">Eşleşen proje bulunamadı.</p>
+            )}
+
+            {!projectsLoading && !projectsError && filtered.length > 0 && (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {filtered.map((project) => (
+                    <article key={project.id} className="h-full" aria-label={project.title}>
+                      <Card
+                        variant="elevated"
+                        title={
+                          project.featured ? (
+                            <span className="flex flex-wrap items-center gap-2">
+                              <span>{project.title}</span>
+                              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-200">
+                                Öne çıkan
+                              </span>
+                            </span>
+                          ) : (
+                            project.title
+                          )
+                        }
+                        image={project.image}
+                        imageAlt={`${project.title} ekran görüntüsü`}
+                        className="h-full flex flex-col"
+                        footer={
+                          <a
+                            href="https://github.com/sehermac"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full"
+                          >
+                            <Button
+                              variant="ghost"
+                              className="w-full text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold"
+                              aria-label={`${project.title} için GitHub bağlantısı`}
+                              type="button"
+                            >
+                              GitHub&apos;da Görüntüle &rarr;
+                            </Button>
+                          </a>
+                        }
+                      >
+                        <p className="text-gray-600 dark:text-gray-400 mb-4 min-h-[4.5rem]">{project.description}</p>
+                        <ul className="flex flex-wrap gap-2 mt-auto" aria-label={`${project.title} teknolojileri`}>
+                          {project.tech.map((t) => (
+                            <li
+                              key={`${project.id}-${t}`}
+                              className="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700"
+                            >
+                              {t}
+                            </li>
+                          ))}
+                        </ul>
+                        <p className="text-xs text-gray-400 mt-3">
+                          {project.year}
+                          {' · '}
+                          {project.category}
+                        </p>
+                      </Card>
+                    </article>
+                  ))}
+                </div>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-6 text-center">
+                  {filtered.length} / {projects.length} proje gösteriliyor
+                </p>
+              </>
+            )}
           </div>
         </section>
 
