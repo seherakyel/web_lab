@@ -36,7 +36,7 @@ export default function Alert({
         {dismissible && (
           <button
             type="button"
-            onClick={onDismiss}
+            onClick={() => onDismiss?.()}
             className="ml-4 opacity-60 hover:opacity-100 focus:outline-none"
             aria-label="Kapat"
           >

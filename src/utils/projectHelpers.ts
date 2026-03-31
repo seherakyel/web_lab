@@ -1,5 +1,20 @@
 import type { Category, Project, SortField, SortOrder } from "../types/project";
 
+export function categoryButtonLabel(cat: Category | "all"): string {
+  switch (cat) {
+    case "all":
+      return "Tümü";
+    case "frontend":
+      return "Frontend";
+    case "fullstack":
+      return "Full Stack";
+    case "backend":
+      return "Backend";
+    default:
+      return cat;
+  }
+}
+
 export function filterBySearch(projects: Project[], query: string): Project[] {
   if (!query.trim()) return projects;
   const lower = query.toLowerCase();
